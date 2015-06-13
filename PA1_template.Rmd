@@ -8,10 +8,19 @@ output:
 
 ## Loading and preprocessing the data
 
+First let's read the data (It is assumed that the data files "activity.csv" is in the working directory)
+```{r}
+activity<-read.csv("activity.csv",header=TRUE,stringsAsFactor=FALSE)
+```
 
+Next steps is to convert the date column into POSIX date format for future processing
+```{r}
+activity$date<-as.POSIXct(activity$date)
+```
 
 ## What is mean total number of steps taken per day?
 
+For this analysis we will use the dplyr package. We will
 
 
 ## What is the average daily activity pattern?
