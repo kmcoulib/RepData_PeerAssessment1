@@ -20,11 +20,45 @@ activity$date<-as.POSIXct(activity$date)
 
 ## What is mean total number of steps taken per day?
 
-For this analysis we will use the dplyr package. We will
+For this analysis we will use the dplyr package. We compute the total steps per day with dplyr package
+```{r,message=FALSE}
+# Load dplyr library
+library(dplyr)
+```
+```{r}
+# Group by date and compute total
+activity.g<-group_by(activity,factor(date))
+tot.steps<-summarize(activity.g, sum(steps,na.rm=TRUE))
+names(tot.steps)<-c("date","tot.steps")
+head(tot.steps)
+```
+Histogram of total number of steps per day
+```{r}
+hist(tot.steps$tot.steps,xlab="Number of steps",main="Total number of steps per day")
+```
+Mean of total number of step taken per day
+```{r}
+mean(tot.steps$tot.steps,na.rm=TRUE)
+```
 
+Median of total number of steps taken per day
+```{r}
+median(tot.steps$tot.steps,na.rm=TRUE)
+```
 
 ## What is the average daily activity pattern?
+Using dplyr we group by intervals then compute the average per interval across all date
+```{r}
+activity.g<-group_by(activity,factor(interval))
+aver.steps<-summarize(activity.g,mean(steps,na.rm=TRUE))
+names(aver.steps)<-c("interval","aver.steps")
+```
+We can now plot the time series of average steps per interval
 
+```{r}
+plot(as.vector(aver.steps$interval),aver.steps$aver.steps,xlab="5-min intervals",
+     ylab="Average number of steps",type="l",col="blue")
+```
 
 
 ## Imputing missing values
